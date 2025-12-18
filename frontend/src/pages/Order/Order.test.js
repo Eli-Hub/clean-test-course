@@ -61,9 +61,9 @@ describe('Test Order', () => {
       // Find and select the 5 mile option, like a real user would.
       screen.getByRole('option', { name: '5 miles' })
     );
-    //Assert: replace the return true.
+    //Assert: verify that the delivery fee is updated to $5.00
     await waitFor(() => {
-      return true;
+      expect(screen.getByText('$5.00')).toBeInTheDocument();
     });
   });
 });
