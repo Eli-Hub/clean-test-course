@@ -5,6 +5,19 @@ on:
     branches:
       - lesson-5
 jobs:
+  security_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: PyCharm Python Security Scanner
+        uses: tonybaloney/pycharm-security@1.25.1
+      - name: Install Bandit
+        run: pip install bandit
+      - name: Run Bandit Security Scan
+        run: bandit -r .
+
   build_and_test:
     runs-on: ubuntu-latest
     defaults:
@@ -24,6 +37,7 @@ jobs:
         run: |
           coverage run -m --source=./hangry_api pytest
           coverage report
+    needs: [security_test]
   deploy:
     needs: [build_and_test]
     runs-on: ubuntu-latest
